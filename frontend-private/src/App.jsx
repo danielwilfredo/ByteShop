@@ -1,7 +1,7 @@
 import React from "react";
 import Employees from "./pages/Employees";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Brands from "./pages/Brands";
+import Models from "./pages/Models";
 function App() {
   return (
     <>
@@ -9,7 +9,7 @@ function App() {
 
       <Router>
         <Routes>
-          <Route path="/" element={<Brands />} />
+          <Route path="/" element={<Models />} />
         </Routes>
       </Router>
     </>

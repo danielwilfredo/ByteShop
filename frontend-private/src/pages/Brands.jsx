@@ -22,6 +22,7 @@ const Brands = () => {
 
     React.useEffect(() => {
         fetchBrands();
+        setActiveTab("list")
     }, []);
 
     const saveBrand = async (e) => {
@@ -156,32 +157,7 @@ const Brands = () => {
                 </div>
               )}
             </div>
-            <div>
-              {activeTab === "list" && (
-                <div>
-                  <ListBrands
-                  brands={brands}
-                  loading={loading}
-                  deleteBrand={deleteBrand}
-                  updateBrands={updateBrands}
-           
-                  />
-                </div>
-              )}
-              {activeTab === "trabajo" && (
-                <div>
-                  <h1>
-                  <p className="text-2xl font-bold text-gray-600">
-                    Trabajo para la clase:
-                       </p>
-                    <span className="text-2xl font-bold text-red-800 mb-4">Empezar el crud para el endopoint de Models</span>
-                    <p className="text-2xl font-bold text-gray-600">
-                    /api/models
-                       </p>
-                  </h1>
-                </ div>
-              )}
-            </div>
+              
           </div>
         </div>
       </div>
