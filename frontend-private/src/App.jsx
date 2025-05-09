@@ -3,6 +3,8 @@ import Employees from "./pages/Employees";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Brands from "./pages/Brands";
 import Models from "./pages/Models";
+import Categories from "./pages/Categories"
+
 function App() {
   return (
     <>
@@ -10,7 +12,7 @@ function App() {
 
       <Router>
         <Routes>
-          <Route path="/" element={<Models />} />
+          <Route path="/" element={<Categories />} />
         </Routes>
       </Router>
     </>
