@@ -5,6 +5,7 @@ const Dashboard = () => {
     employees: 0,
     brands: 0,
     models: 0,
+    categories: 0,
   });
 
   const fetchData = async () => {
@@ -14,15 +15,19 @@ const Dashboard = () => {
       );
       const brandsResponse = await fetch("http://localhost:4000/api/brands");
       const modelsResponse = await fetch("http://localhost:4000/api/models");
+      const categoriesResponse = await fetch("http://localhost:4000/api/categories");
+
 
       const employeesData = await employeesResponse.json();
       const brandsData = await brandsResponse.json();
       const modelsData = await modelsResponse.json();
+      const categoriesData = await categoriesResponse.json();
 
       setData({
         employees: employeesData.length,
         brands: brandsData.length,
         models: modelsData.length,
+        categories: categoriesData.length
       });
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -49,6 +54,10 @@ const Dashboard = () => {
           <div className="bg-purple-500 hover:bg-purple-700 text-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-bold">Modelos</h2>
             <p className="text-4xl font-bold mt-4">{data.models}</p>
+          </div>
+          <div className="bg-purple-500 hover:bg-purple-700 text-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-bold">Categorias</h2>
+            <p className="text-4xl font-bold mt-4">{data.categories}</p>
           </div>
         </div>
       </div>
