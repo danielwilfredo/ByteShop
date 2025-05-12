@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import ModelList from "../components/ModelsComponent/ModelList";
-import RegisterModel from "../components/ModelsComponent/RegisterModel";
+import ModelList from "../components/Models/ListModels";
+import RegisterModel from "../components/Models/RegisterModels";
 
 const Models = () => {
     const [activeTab, setActiveTab] = useState("list");
