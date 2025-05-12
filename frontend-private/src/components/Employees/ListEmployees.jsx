@@ -1,9 +1,7 @@
 import React from "react";
-import CardEmployee from "./CardEmployee";
+import CardEmployee from "../Employees/CardEmployee";
 
 const ListEmployees = ({
-  setId,
-  setActiveTab,
   deleteEmployee,
   updateEmployee,
   loading,

@@ -1,26 +1,20 @@
 import React, { useState, useEffect } from "react";
-import RegisterEmployees from "../components/RegisterEmployees";
-import ListEmployees from "../components/ListEmployees";
+import RegisterEmployees from "../components/Employees/RegisterEmployees";
+import ListEmployees from "../components/Employees/ListEmployees";
+
+import useDataEmployees from '../components/Employees/hooks/useDataEmployees';
+
+
 
 const Employees = () => {
+
+
+    /*
+    
   const [activeTab, setActiveTab] = useState("list");
   const API = "http://localhost:4000/api/registerEmployees";
   const apiEm = "employees";
 
-  /*
-    {
-  "name": "Emilio",
-  "lastName": "Ramirez",
-  "email": "emilio@gmail.com",
-  "password": "1234567",
-  "telephone": "77556666",
-  "dui": "12345678-1",
-  "address": "Calle Principal #123, San Salvador",
-  "birthdate": "1990-05-15",
-  "hireDate": "2025-01-01",
-  "isssNumber": "987957321"
-}
-    */
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -209,7 +203,6 @@ const Employees = () => {
         throw new Error("Error al actualizar el empleado");
       }
 
-      const data = await response.json();
       alert("Empleado actualizado exitosamente");
       setSuccess("Empleado actualizado correctamente");
       cleanData();
@@ -223,6 +216,47 @@ const Employees = () => {
       setLoading(false);
     }
   };
+    */
+
+    const {   activeTab,
+    setActiveTab,
+    id,
+    setId,
+    name,
+    setName,
+    lastName,
+    setLastName,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    telephone,
+    setTelephone,
+    dui,
+    setDui,
+    address,
+    setAddress,
+    birthdate,
+    setBirthdate,
+    hireDate,
+    setHireDate,
+    isssNumber,
+    setIsssNumber,
+    errorEmpleado,
+    setError,
+    success,
+    setSuccess,
+    loading,
+    setLoading,
+    employees,
+    setEmployees,
+    cleanData,
+    handleSubmit,
+    fetchData,
+    deleteEmployee,
+    updateEmployee,
+    handleUpdate,} = useDataEmployees();
+
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -238,8 +272,10 @@ const Employees = () => {
             </button>
             <button
               className="px-4 py-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:border-b-2 focus:border-blue-500"
-              onClick={() => { setActiveTab("form") 
-                cleanData()}}
+              onClick={() => {
+                setActiveTab("form");
+                cleanData();
+              }}
             >
               Gestionar Empleados
             </button>
@@ -283,7 +319,7 @@ const Employees = () => {
                   setHireDate={setHireDate}
                   isssNumber={isssNumber}
                   setIsssNumber={setIsssNumber}
-                  error={error}
+                  errorEmpleado={errorEmpleado}
                   setError={setError}
                   success={success}
                   setSuccess={setSuccess}

@@ -1,11 +1,10 @@
 import BrandCard from "./BrandCard";
-import React from 'react'
+import React from "react";
 
-const ListBrands=({brands, loading, deleteBrand, updateBrands})=>{
-    
-    return(
-        <div className="">   
-          <h1 className="text-2xl font-bold underline text-center">
+const ListBrands = ({ brands, loading, deleteBrand, updateBrands }) => {
+  return (
+    <div className="">
+      <h1 className="text-2xl font-bold underline text-center">
         Listado de marcas
       </h1>
       <div className="flex flex-wrap gap-4 justify-center mt-5">
@@ -19,9 +18,9 @@ const ListBrands=({brands, loading, deleteBrand, updateBrands})=>{
             updateBrands={updateBrands}
           />
         ))}
-      </div> 
-        </div>)
-
-}
+      </div>
+    </div>
+  );
+};
 
 export default ListBrands;
