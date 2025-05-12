@@ -10,7 +10,7 @@
 // Imports
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
-import { config } from './config.js'
+import { config } from './src/config.js'
 
 // Cargar variables de entorno desde el archivo .env
 dotenv.config();

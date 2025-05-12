@@ -70,13 +70,13 @@ const employeesSchema = new Schema(
       minlength: 10,
     },
     birthdate: {
-      type: Date,
+      type: String,
       required: true,
       max: [new Date(), "La fecha de nacimiento no puede ser una fecha futura"],
       message: "La fecha de nacimiento no puede ser una fecha futura",
     },
     hireDate: {
-      type: Date,
+      type: String,
       required: true,
       max: [new Date(), "La fecha de nacimiento no puede ser una fecha futura"],
       message: "La fecha de contratación no puede ser una fecha futura",
