@@ -1,5 +1,5 @@
 import React from "react";
-import CardEmployee from "../Employees/CardEmployee";
+import CardEmployee from "./CardEmployee";
 
 const ListEmployees = ({
   deleteEmployee,

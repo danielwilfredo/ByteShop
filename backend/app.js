@@ -7,21 +7,21 @@
 
 import express from "express";
 import cors from "cors";
-import productsRoutes from "./routes/products.js";
-import clientsRoutes from "./routes/clients.js";
-import categoriesRoutes from "./routes/categories.js";
-import brandsRoutes from "./routes/brands.js";
-import modelsRoutes from "./routes/models.js";
-import employeesRoutes from "./routes/employees.js";
-import ordersRoutes from "./routes/orders.js";
-import purchasesRoutes from "./routes/purchases.js";
-import loginRoutes from "./routes/login.js";
-import registerClientRoutes from "./routes/registerClient.js";
-import registerEmployeesRoutes from "./routes/registerEmployee.js";
-import logoutRoutes from "./routes/logout.js";
+import productsRoutes from "./src/routes/products.js";
+import clientsRoutes from "./src/routes/clients.js";
+import categoriesRoutes from "./src/routes/categories.js";
+import brandsRoutes from "./src/routes/brands.js";
+import modelsRoutes from "./src/routes/models.js";
+import employeesRoutes from "./src/routes/employees.js";
+import ordersRoutes from "./src/routes/orders.js";
+import purchasesRoutes from "./src/routes/purchases.js";
+import loginRoutes from "./src/routes/login.js";
+import registerClientRoutes from "./src/routes/registerClient.js";
+import registerEmployeesRoutes from "./src/routes/registerEmployee.js";
+import logoutRoutes from "./src/routes/logout.js";
 import cookieParser from "cookie-parser";
-import passwordRecoveryRoutes from "./routes/passwordRecovery.js";
-import paymentRoutes from "./routes/payment.js";
+import passwordRecoveryRoutes from "./src/routes/passwordRecovery.js";
+import paymentRoutes from "./src/routes/payment.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -32,15 +32,24 @@ const app = express();
 // TODO: aqui van algunos ajustes
 
 // Middlewares
+const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+
 app.use(
   cors({
-    origin: "http://localhost:5173", // Dominio del cliente
-    credentials: true, // Permitir envío de cookies y credenciales
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // Allow cookies or authentication headers
   })
 );
 app.use(express.json());
 app.use(cookieParser());
-import { validateAuthToken } from "./middlewares/validateAuthToken.js";
+import { validateAuthToken } from "./src/middlewares/validateAuthToken.js";
+
 
 // Routescon validación de inicio de sesión
 /*

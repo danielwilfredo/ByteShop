@@ -12,7 +12,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-import { config } from "./config.js";
+import { config } from "./src/config.js";
 
 // Función principal para iniciar el servidor
 async function main() {

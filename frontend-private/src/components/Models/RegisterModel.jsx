@@ -1,9 +1,9 @@
 import React from "react";
 
-const RegisterBrand = ({
+const RegisterModel = ({
   id,
-  nameBrand,
-  setNameBrand,
+  nameModel,
+  setNameModel,
   handleSubmit,
   handleEdit,
 }) => {
@@ -14,17 +14,17 @@ const RegisterBrand = ({
         <div className="mb-4">
           <label
             className="block text-gray-700 font-bold mb-2 w-full"
-            htmlFor="nameBrand"
+            htmlFor="nameModel"
           >
-            Nombre de la Marca
+            Nombre del Modelo
           </label>
           <input
             type="text"
-            name="nameBrand"
-            value={nameBrand}
-            onChange={(e) => setNameBrand(e.target.value)}
+            name="nameModel"
+            value={nameModel}
+            onChange={(e) => setNameModel(e.target.value)}
             className="w-full px-3 py-2 border rounded"
-            placeholder="Nombre de la marca"
+            placeholder="Nombre del modelo"
           />
         </div>
 
@@ -56,4 +56,4 @@ const RegisterBrand = ({
   );
 };
 
-export default RegisterBrand;
+export default RegisterModel;

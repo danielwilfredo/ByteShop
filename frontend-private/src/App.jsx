@@ -1,23 +1,23 @@
 import React from "react";
+import Nav from "./components/navbar";
 import Employees from "./pages/Employees";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Brands from "./pages/Brands";
 import Models from "./pages/Models";
-import NavBar from "./components/NavBar";
 import Dashboard from "./pages/Dashboard";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
     <>
       <Router>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/employees" element={<Employees />} />
-          <Route path="/brands" element={<Brands />} />
-          <Route path="/models" element={<Models />} />
-        </Routes>
-      </Router>
+|    <Nav />
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/brands" element={<Brands />} />
+        <Route path='/models' element={<Models />} />
+        <Route path="/employees" element={<Employees />} />
+      </Routes>
+    </Router>
     </>
   );
 }

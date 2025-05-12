@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import RegisterEmployees from "../components/Employees/RegisterEmployees";
 import ListEmployees from "../components/Employees/ListEmployees";
 
-import useDataEmployees from '../components/Employees/hooks/useDataEmployees';
+import useDataEmployees from '../components/Employees/hooks/useDataEmployee';
 
 
 
