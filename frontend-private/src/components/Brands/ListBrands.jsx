@@ -1,7 +1,12 @@
 import BrandCard from "./BrandCard";
 import React from "react";
 
-const ListBrands = ({ brands, loading, deleteBrand, updateBrands }) => {
+const ListBrands = ({ 
+  brands,
+  loading, 
+  deleteBrand, 
+  updateBrands
+ }) => {
   return (
     <div className="">
       <h1 className="text-2xl font-bold underline text-center">

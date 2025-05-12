@@ -218,7 +218,8 @@ const Employees = () => {
   };
     */
 
-    const {   activeTab,
+    const {   
+    activeTab,
     setActiveTab,
     id,
     setId,
@@ -255,7 +256,8 @@ const Employees = () => {
     fetchData,
     deleteEmployee,
     updateEmployee,
-    handleUpdate,} = useDataEmployees();
+    handleUpdate,
+} = useDataEmployees();
 
 
   return (
