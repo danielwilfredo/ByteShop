@@ -1,4 +1,3 @@
-// controllers/paymentController.js
 import paypal from "@paypal/checkout-server-sdk";
 import { config } from "../config.js";
 
@@ -9,11 +8,13 @@ const clientSecret = config.paypal.clientSecret;
 const environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
 const client = new paypal.core.PayPalHttpClient(environment);
 
-// Crear el objeto del controlador
+// Crear el objeto del controlador  
 const paymentController = {};
 
 // Función para crear un pago
 paymentController.createPayment = async (req, res) => {
+  const { total } = req.body; 
+
   const request = new paypal.orders.OrdersCreateRequest();
   request.prefer("return=representation");
   request.requestBody({
@@ -22,13 +23,18 @@ paymentController.createPayment = async (req, res) => {
       {
         amount: {
           currency_code: "USD",
-          value: "1.00", // Cambia por la cantidad deseada
+          value: total.toFixed(2), // Usamos el total del carrito
         },
       },
     ],
+    payer: {
+      address: {
+        country_code: "SV", // País por defecto
+      },
+    },
     application_context: {
-      locale: "es-SV", // Idioma español con configuración de El Salvador
-      shipping_preference: "NO_SHIPPING", // Desactiva la solicitud de dirección de envío
+      locale: "es-SV",
+      shipping_preference: "NO_SHIPPING",
     },
   });
 

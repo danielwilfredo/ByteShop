@@ -4,10 +4,10 @@ dotenv.config();
 
 export const config = {
   db: {
-    URI: process.env.DB_URI || "mongodb://localhost:27017/byteShop",
+    URI: process.env.DB_URI ,
   },
   server: {
-    port: process.env.PORT || 4000,
+    port: process.env.PORT,
   },
   jwt: {
     secret: process.env.JWT_SECRET || "secreto123",

@@ -66,6 +66,7 @@ app.use("/api/orders", ordersRoutes);
 app.use("/api/purchases", purchasesRoutes);
 app.use("/api/logout", logoutRoutes);
 app.use("/api/payment", paymentRoutes);
+//sdfd
 
 // Rutas publicas que no necesitan haber iniciado sesión
 app.use("/api/login", loginRoutes);

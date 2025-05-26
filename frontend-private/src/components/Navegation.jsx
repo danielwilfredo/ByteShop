@@ -13,12 +13,13 @@ import Employees from "../pages/Employees";
 import Brands from "../pages/Brands";
 import Models from "../pages/Models";
 import Categories from "../pages/Categories";
+import Payment from "../pages/payment.jsx";
 import { PrivateRoute } from "./PrivateRoute";
 
 import { useAuth } from "../context/AuthContext";
 
 function Navegation() {
-  //en el frontned manejo la autenticacion con cookie osea obtengo lo que 
+  //en el frontned manejo la autenticacion con cookie osea obtengo lo que
   //devuelve el backend y lo guardo en una cookie
   //y en el frontend lo guardo en el contexto
   const { authCokie } = useAuth();
@@ -42,6 +43,7 @@ function Navegation() {
           <Route path="/brands" element={<Brands />} />
           <Route path="/models" element={<Models />} />
           <Route path="/categories" element={<Categories />} />
+          <Route path="/payment" element={<Payment />} />
         </Route>
       </Routes>
     </>

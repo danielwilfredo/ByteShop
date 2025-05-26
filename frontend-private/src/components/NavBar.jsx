@@ -78,6 +78,19 @@ const NavBar = () => {
               Categorias
             </NavLink>
           </li>
+
+          <li>
+            <NavLink
+              to="/payment"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-blue-500 font-bold"
+                  : "text-gray-300 hover:text-gray-400"
+              }
+            >
+              Payment
+            </NavLink>
+          </li>
         </ul>
         <div>
           <button
