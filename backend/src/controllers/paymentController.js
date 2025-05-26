@@ -6,14 +6,16 @@ const clientId = config.paypal.clientId;
 const clientSecret = config.paypal.clientSecret;
 
 const environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
+//para ponerlo en live
+//const environment = new paypal.core.LiveEnvironment(clientId, clientSecret);
 const client = new paypal.core.PayPalHttpClient(environment);
 
-// Crear el objeto del controlador  
+// Crear el objeto del controlador
 const paymentController = {};
 
 // Función para crear un pago
 paymentController.createPayment = async (req, res) => {
-  const { total } = req.body; 
+  const { total } = req.body;
 
   const request = new paypal.orders.OrdersCreateRequest();
   request.prefer("return=representation");

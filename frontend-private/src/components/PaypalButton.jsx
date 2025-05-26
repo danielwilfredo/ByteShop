@@ -59,7 +59,7 @@ const PayPalButton = ({ total }) => {
     });
 
     document.body.appendChild(script);
-  }, [total]); // 👈 importante para que se actualice si cambia el total
+  }, [total]); 
 
   return <div ref={paypalRef}></div>;
 };
