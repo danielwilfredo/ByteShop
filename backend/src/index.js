@@ -7,7 +7,7 @@
  */
 
 import app from "./app.js"; // Importa la configuración principal de la aplicación
-import "./database.js";
+import "./database.js"; // Importa mongoose con la conexión a la base de datos
 import dotenv from "dotenv";
 
 dotenv.config();

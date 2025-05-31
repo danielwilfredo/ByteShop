@@ -26,4 +26,10 @@ export const config = {
     clientSecret: process.env.PAYPAL_API_SECRET,
     PAYPAL_API: "https://api-m.sandbox.paypal.com/",
   },
+  cloudinary: {
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "byteshop",
+    api_key: process.env.CLOUDINARY_API_KEY || "123456789012345",
+    api_secret: process.env.CLOUDINARY_API_SECRET || "your-api-secret-here",
+    secure: true
+  },
 };

@@ -8,7 +8,7 @@ import Employees from "../pages/Employees";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { user, Login, logout, authCokie, setAuthCokie } = useAuth();
+  const { user, login, logout, authCokie } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -17,14 +17,15 @@ const Login = () => {
       toast.error("Por favor, complete todos los campos.");
       return;
     }
-    const result = await Login(email, password);
+    // Llamar a la función login con minúscula como está definida en AuthContext
+    const success = await login(email, password);
 
-    if (!result.success) {
-      toast.error(result.message || "Credenciales incorrectas.");
+    if (!success) {
+      toast.error("Credenciales incorrectas.");
       return;
     }
     
-    
+    // Si es exitoso, el login ya redirige al dashboard en AuthContext
   };
 
   useEffect(() => {

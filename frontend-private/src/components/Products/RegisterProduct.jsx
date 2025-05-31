@@ -1,21 +1,36 @@
 import React from 'react';
 
+/**
+ * Componente para el registro y edición de productos
+ * Incluye un formulario completo con soporte para carga de imágenes
+ */
 const RegisterProduct = ({
+  // Estados del formulario
   name, setName,
   description, setDescription,
   price, setPrice,
   idCategory, setIdCategory,
   categories = [],
   stock, setStock,
-  image, setImage,
+  // Los props imageFile y setImageFile no se usan directamente pero
+  // son necesarios para el prop handleImageChange
+  imagePreview,
   idBrand, setIdBrand,
   brands = [],
   idModel, setIdModel,
   models = [],
   discount, setDiscount,
+  
+  // Funciones
   saveProduct,
-  id,
-  handleEdit
+  handleEdit,
+  cancelEdit,
+  handleImageChange,
+  
+  // Estados de control
+  editMode,
+  loading,
+  error
 }) => {
   return (
     <div className="max-w-4xl mx-auto mt-10">
@@ -71,16 +86,26 @@ const RegisterProduct = ({
             />
           </div>
 
-          {/* Imagen */}
+          {/* Imagen - Ahora usando input type file */}
           <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="image">Imagen (URL)</label>
+            <label className="block text-gray-700 font-bold mb-2" htmlFor="image">Imagen</label>
             <input
-              type="text"
+              type="file"
               name="image"
-              value={image}
-              onChange={e => setImage(e.target.value)}
+              accept="image/*"
+              onChange={handleImageChange}
               className="w-full px-3 py-2 border rounded"
             />
+            {/* Mostrar vista previa de la imagen si existe */}
+            {imagePreview && (
+              <div className="mt-2">
+                <img 
+                  src={imagePreview} 
+                  alt="Vista previa" 
+                  className="w-full max-h-40 object-contain rounded" 
+                />
+              </div>
+            )}
           </div>
 
           {/* Descuento */}
@@ -146,15 +171,34 @@ const RegisterProduct = ({
           </div>
         </div>
 
-        {/* Botón */}
-        <div className="mt-6">
+        {/* Mensajes de error */}
+        {error && (
+          <div className="mt-4 p-3 bg-red-100 text-red-700 rounded">
+            {error}
+          </div>
+        )}
+        
+        {/* Botones */}
+        <div className="mt-6 flex gap-4">
           <button
             type="submit"
-            onClick={id ? handleEdit : saveProduct}
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+            onClick={editMode ? handleEdit : saveProduct}
+            disabled={loading}
+            className={`flex-1 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
-            {id ? "Editar" : "Guardar"}
+            {loading ? 'Procesando...' : (editMode ? "Actualizar" : "Guardar")}
           </button>
+          
+          {editMode && (
+            <button
+              type="button"
+              onClick={cancelEdit}
+              disabled={loading}
+              className="flex-1 bg-gray-300 text-gray-800 py-2 px-4 rounded hover:bg-gray-400"
+            >
+              Cancelar
+            </button>
+          )}
         </div>
       </form>
     </div>

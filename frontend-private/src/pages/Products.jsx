@@ -1,182 +1,197 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ListProducts from "../components/Products/ListProducts";
 import RegisterProduct from "../components/Products/RegisterProduct";
+import useDataProducts from "../components/Products/hooks/useDataProducts";
 import toast, {Toaster} from 'react-hot-toast';
 
-/*
-{
-    "name": "Laptop 3",
-    "description": "Potente laptop para trabajo y estudio.",
-    "price": 12,
-    "idCategory": "68235787dc4df61dd8f645e4",
-    "stock": 10,
-    "image": "https://via.placeholder.com/400x300?text=Producto",
-    "idBrand": "682371a04c4c8f5e04d08346",
-    "idModel": "682622d72016d33bdc0c69a4",
-    "discount": 15
-  } */
-
+/**
+ * Página principal para la gestión de productos
+ * Implementa todas las operaciones CRUD utilizando el hook personalizado useDataProducts
+ */
 const Products = () => {
+  // Estado para el manejo de las pestañas
   const [activeTab, setActiveTab] = useState("list");
-  const API = "http://localhost:4000/api/products";
-  const [id, setId] = useState("");
-  const [nameCategory, setNameCategory] = useState("");
-  const [description, setDescription] = useState("");
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const fetchProducts = async () => {
-    setLoading(true);
-    try {
-            const response = await fetch(API);
-    if (!response.ok) {
-      throw new Error("Hubo un error al obtener las categorías");
-    }
-    const data = await response.json();
-    setProducts(data);
-    setLoading(false);
-    } catch (error) {
-        setLoading(false);
-    }
-setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const saveCategory = async (e) => {
-    e.preventDefault();
-    const newCategory = {
-      name: nameCategory,
-      description,
-    };
-
-    const response = await fetch(API, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newCategory),
-    });
-
-    if (!response.ok) {
-      throw new Error("Hubo un error al registrar la categoría");
-    }
-
-    const data = await response.json();
-    toast.success('Categoría registrada');
-    setCategories(data);
-    fetchCategories();
-    setNameCategory("");
-    setDescription("");
-  };
-
-  const deleteCategory = async (id) => {
-    const response = await fetch(`${API}/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error("Hubo un error al eliminar la categoría");
-    }
-
-      toast.success('Categoria Eliminada');
-    fetchCategories();
-  };
-
-  const updateCategories = async (dataCategory) => {
-    setId(dataCategory._id);
-    setNameCategory(dataCategory.name);
-    setDescription(dataCategory.description);
+  
+  // Usamos nuestro hook personalizado que maneja toda la lógica de productos
+  const {
+    // Estados del formulario
+    name, setName,
+    description, setDescription,
+    price, setPrice,
+    idCategory, setIdCategory,
+    stock, setStock,
+    imageFile, setImageFile,
+    imagePreview, setImagePreview,
+    idBrand, setIdBrand,
+    idModel, setIdModel,
+    discount, setDiscount,
+    
+    // Estados de listas
+    products,
+    categories,
+    brands,
+    models,
+    
+    // Estados de control
+    loading,
+    error,
+    editMode,
+    
+    // Funciones
+    saveProduct,
+    deleteProduct,
+    prepareProductForEdit,
+    handleEdit,
+    cancelEdit,
+    handleImageChange
+    // clearForm - No lo necesitamos directamente en esta página
+  } = useDataProducts();
+  
+  // Función para editar un producto
+  const startEditProduct = (product) => {
+    prepareProductForEdit(product);
     setActiveTab("form");
   };
-
-  const handleEdit = async (e) => {
-    e.preventDefault();
-
+  
+  // Función para manejar la eliminación con confirmación de toast
+  const handleDeleteProduct = async (id) => {
     try {
-      const editCategory = {
-        name: nameCategory,
-        description,
-      };
-      const response = await fetch(`${API}/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(editCategory),
-      });
-
-      if (!response.ok) {
-        throw new Error("Error al actualizar la categoría");
-      }
-
-      const data = await response.json();
-       toast.success('categoría actualizada');
-      setId("");
-      setDescription("");
-      setNameCategory("");
-      setActiveTab("list");
-      fetchCategories();
-    } catch (error) {
-      console.error("Error al editar la categoría:", error);
+      await deleteProduct(id);
+      toast.success('Producto eliminado correctamente');
+    } catch (err) {
+      toast.error('Error al eliminar el producto: ' + err.message);
     }
+  };
+  
+  // Función para manejar el guardado con notificaciones
+  const handleSaveProduct = async (e) => {
+    try {
+      await saveProduct(e);
+      toast.success('Producto guardado correctamente');
+      setActiveTab("list"); // Cambiar a la pestaña de lista después de guardar
+    } catch (err) {
+      toast.error('Error al guardar el producto: ' + err.message);
+    }
+  };
+  
+  // Función para manejar la edición con notificaciones
+  const handleEditProduct = async (e) => {
+    try {
+      await handleEdit(e);
+      toast.success('Producto actualizado correctamente');
+      setActiveTab("list"); // Cambiar a la pestaña de lista después de editar
+    } catch (err) {
+      toast.error('Error al actualizar el producto: ' + err.message);
+    }
+  };
+  
+  // Función para cancelar la edición
+  const handleCancelEdit = () => {
+    cancelEdit();
+    // Opcionalmente, puedes cambiar a la pestaña de lista
+    setActiveTab("list");
   };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">Productos</h1>
-        <div>
+      {/* Componente para mostrar notificaciones toast */}
+      <Toaster position="top-right" />
+      
+      <div className="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6">
+        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Gestión de Productos</h1>
+        
+        {/* Pestañas de navegación */}
+        <div className="mb-8">
           <div className="flex border-b border-gray-200 mb-4">
             <button
-              className="px-4 py-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:border-b-2 focus:border-blue-500"
+              className={`px-6 py-3 text-lg ${activeTab === "list" 
+                ? "text-blue-600 border-b-2 border-blue-500 font-medium" 
+                : "text-gray-600 hover:text-gray-800"} 
+                focus:outline-none transition-colors duration-200`}
               onClick={() => setActiveTab("list")}
             >
-              Lista de productos
+              Lista de Productos
             </button>
             <button
-              className="px-4 py-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:border-b-2 focus:border-blue-500"
+              className={`px-6 py-3 text-lg ${activeTab === "form" 
+                ? "text-blue-600 border-b-2 border-blue-500 font-medium" 
+                : "text-gray-600 hover:text-gray-800"} 
+                focus:outline-none transition-colors duration-200`}
               onClick={() => {
                 setActiveTab("form");
+                // Si estamos en modo edición y cambiamos manualmente a la pestaña de formulario,
+                // aseguramos que se limpie el formulario
+                if (editMode) {
+                  cancelEdit();
+                }
               }}
             >
-              Gestionar productos
+              {editMode ? "Editar Producto" : "Nuevo Producto"}
             </button>
           </div>
+          
+          {/* Contenido según la pestaña activa */}
           <div>
             {activeTab === "list" && (
               <div>
-                <ListProducts
-                products={products}
-                  /*categories={categories}
-                  loading={loading}
-                  deleteCategory={deleteCategory}
-                  updateCategories={updateCategories}*/
-                />
+                {loading ? (
+                  <div className="text-center py-8">
+                    <p className="text-gray-500">Cargando productos...</p>
+                  </div>
+                ) : (
+                  <ListProducts
+                    products={products}
+                    deleteCategory={handleDeleteProduct}
+                    updateCategories={startEditProduct}
+                  />
+                )}
               </div>
             )}
+            
             {activeTab === "form" && (
               <div>
                 <RegisterProduct
-               /*   setNameCategory={setNameCategory}
-                  setDescription={setDescription}
-                  saveCategory={saveCategory}
-                  nameCategory={nameCategory}
+                  // Pasar todos los estados y funciones necesarios
+                  name={name}
+                  setName={setName}
                   description={description}
-                  id={id}
-                  handleEdit={handleEdit}*/
+                  setDescription={setDescription}
+                  price={price}
+                  setPrice={setPrice}
+                  idCategory={idCategory}
+                  setIdCategory={setIdCategory}
+                  categories={categories}
+                  stock={stock}
+                  setStock={setStock}
+                  imageFile={imageFile}
+                  setImageFile={setImageFile}
+                  imagePreview={imagePreview}
+                  setImagePreview={setImagePreview}
+                  idBrand={idBrand}
+                  setIdBrand={setIdBrand}
+                  brands={brands}
+                  idModel={idModel}
+                  setIdModel={setIdModel}
+                  models={models}
+                  discount={discount}
+                  setDiscount={setDiscount}
+                  
+                  // Funciones para manejar acciones
+                  saveProduct={handleSaveProduct}
+                  handleEdit={handleEditProduct}
+                  cancelEdit={handleCancelEdit}
+                  handleImageChange={handleImageChange}
+                  
+                  // Estados de control
+                  editMode={editMode}
+                  loading={loading}
+                  error={error}
                 />
               </div>
             )}
           </div>
         </div>
       </div>
-
     </div>
   );
 };

@@ -1,11 +1,6 @@
-/*
-* En este archivo realizamos la conexión a una base de datos en MongoDB
-* Es importante recordar que no es necesario crear la base de datos desde MongoDBCompass, ya que si no existe, se crea automaticamente
-*
-* Usamos variables de entorno con dotenv y comprobamos si la conexión está open, disconnected o error
-*
-* TODO: cuando la conexión esté desconectada o genere un error, hacer una función para reconectarme automaticamente a la base de datos
-*/
+// este me servia por otros errores que tenia steven
+
+
 
 // Imports
 import mongoose from "mongoose";
@@ -18,8 +13,24 @@ dotenv.config();
 // Configurar la URI o dirección de la base de datos
 const URI = config.db.URI;
 
-// Conexión a la base de datos en MongoDB
-mongoose.connect(URI);
+// Función para conectar a MongoDB con reintentos automáticos
+const connectWithRetry = () => {
+  console.log('Intentando conectar a MongoDB...');
+  mongoose.connect(URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000,  // Timeout para selección de servidor
+    socketTimeoutMS: 45000,          // Tiempo de espera para operaciones
+    family: 4                        // Usar IPv4, evita problemas en algunos entornos
+  }).catch(err => {
+    console.error('Error en la conexión a MongoDB:', err);
+    console.log('Reintentando en 5 segundos...');
+    setTimeout(connectWithRetry, 5000); // Reintentar después de 5 segundos
+  });
+};
+
+// Iniciar conexión a la base de datos
+connectWithRetry();
 
 // En una constante guardo la conexión, que puede tener los valores (open, disconnected o error)
 const connection = mongoose.connection;
@@ -32,9 +43,14 @@ connection.once("open", () => {
 // Evento para detectar si se desconecta la base de datos
 connection.on("disconnected", () => {
   console.log("Database is disconnected");
+  connectWithRetry(); // Intentar reconectar automáticamente
 });
 
 // Evento para detectar errores en la conexión
 connection.on("error", (err) => {
   console.error("Database connection error:", err);
 });
+
+// Exportar mongoose para que pueda ser utilizado en otros archivos
+export default mongoose;
+

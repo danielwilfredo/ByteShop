@@ -9,21 +9,21 @@ import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
+    <Router>
+      <AuthProvider>
         <Navegation />
-      </Router>
-      <Toaster
-        toastOptions={{
-          duration: 1000,
-        }}
-      />
-      <Toaster
-        toastOptions={{
-          duration: 1000,
-        }}
-      />
-    </AuthProvider>
+        <Toaster
+          toastOptions={{
+            duration: 1000,
+          }}
+        />
+        <Toaster
+          toastOptions={{
+            duration: 1000,
+          }}
+        />
+      </AuthProvider>
+    </Router>
   );
 }
 

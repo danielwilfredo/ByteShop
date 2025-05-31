@@ -1,7 +1,4 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
-const useFetch =()=>
+  const useFetch =()=>
 {
 const SERVER_URL = 'http://localhost:4000/api/';
 
