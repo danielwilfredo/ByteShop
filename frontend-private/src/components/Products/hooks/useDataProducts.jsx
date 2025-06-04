@@ -190,7 +190,7 @@ const useDataProducts = () => {
             const response = await fetch(`${API_URL}/products`, {
                 method: 'POST',
                 credentials: 'include',
-                headers: authHeader,
+               // headers: authHeader,
                 body: formData
             });
 

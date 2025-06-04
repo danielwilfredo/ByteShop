@@ -14,6 +14,7 @@ const Brands = () => {
     saveBrand,
     deleteBrand,
     updateBrands,
+    handleEdit
   } = useDataBrands();
   
   return (
