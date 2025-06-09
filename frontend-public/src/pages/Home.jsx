@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Title from "../components/Titles";
 import useFetchProducts from "../hooks/useFetchProducts";
+import CardCategorie from "../components/Categories/CardCategorie";
 
 const Home = () => {
 
-    const {products}=useFetchProducts();
+    const {products, categories}=useFetchProducts();
 
-    console.log("Productos desde home", products)
+    console.log("categ desde home", categories)
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -20,26 +21,14 @@ const Home = () => {
         </p>
 
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-          Productos Destacados
+          Mira nuestras categorias de productos
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {products?.map((item) => (
-            <div
-              key={item?.id}
-              className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow"
-            >
-              <img
-                src={item?.image}
-                alt={item?.name}
-                className="w-full h-48 object-cover rounded-t-lg"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-bold text-gray-700 mb-2">
-                  {item?.name}
-                </h3>
-                <p className="text-gray-600 text-sm">{item?.description}</p>
-              </div>
-            </div>
+          {categories?.map((item) => (
+<CardCategorie
+category={item}
+
+/>
           ))}
         </div>
       </div>
