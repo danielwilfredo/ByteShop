@@ -67,8 +67,8 @@ const useDataProducts = () => {
      * Efecto para cargar la lista de productos al montar el componente
      * o cuando se actualiza el estado de refresh
      */
-    useEffect(() => {
-        const fetchProducts = async () => {
+
+      const fetchProducts = async () => {
             try {
                 setLoading(true);
                 const response = await fetch(`${API_URL}/products`, {
@@ -91,13 +91,15 @@ const useDataProducts = () => {
             }
         };
 
+
+    useEffect(() => {
+  
         fetchProducts();
     }, [API_URL, getAuthHeaders, refresh]);
 
     /**
      * Efecto para cargar las categorías, marcas y modelos al montar el componente
      */
-    useEffect(() => {
         const fetchCategoriesAndBrands = async () => {
             try {
                 // Cargar categorías
@@ -133,6 +135,9 @@ const useDataProducts = () => {
                 console.error('Error cargando datos relacionados:', error);
             }
         };
+
+
+    useEffect(() => {
 
         fetchCategoriesAndBrands();
     }, [API_URL, getAuthHeaders]);
