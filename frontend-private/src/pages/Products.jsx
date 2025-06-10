@@ -168,21 +168,25 @@ const Products = () => {
                   setDescription={setDescription}
                   price={price}
                   setPrice={setPrice}
+                  // variables para manejar las categorias al registrar
                   idCategory={idCategory}
                   setIdCategory={setIdCategory}
                   categories={categories}
+                  // variables para manejar las marcas al registrar
+                  idBrand={idBrand}
+                  setIdBrand={setIdBrand}
+                  brands={brands}
+                  // variables para modelos al registrar
+                  idModel={idModel}
+                  setIdModel={setIdModel}
+                  models={models}
+                  // mas variables
                   stock={stock}
                   setStock={setStock}
                   imageFile={imageFile}
                   setImageFile={setImageFile}
                   imagePreview={imagePreview}
                   setImagePreview={setImagePreview}
-                  idBrand={idBrand}
-                  setIdBrand={setIdBrand}
-                  brands={brands}
-                  idModel={idModel}
-                  setIdModel={setIdModel}
-                  models={models}
                   discount={discount}
                   setDiscount={setDiscount}
                   // Funciones para manejar acciones

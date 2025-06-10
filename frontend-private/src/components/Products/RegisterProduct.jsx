@@ -1,5 +1,7 @@
 import React from "react";
 import InputText from "../InputText";
+import InputNumber from "../InputNumber";
+import Button from "../Button";
 
 /**
  * Componente para el registro y edición de productos
@@ -64,40 +66,20 @@ const RegisterProduct = ({
           />
 
           {/* Precio */}
-          <div>
-            <label
-              className="block text-gray-700 font-bold mb-2"
-              htmlFor="price"
-            >
-              Precio
-            </label>
-            <input
-              type="number"
-              name="price"
-              value={price}
-              min={0}
-              onChange={(e) => setPrice(e.target.value)}
-              className="w-full px-3 py-2 border rounded"
-            />
-          </div>
+          <InputNumber
+            name="price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            placeholder="Precio del producto"
+          />
 
           {/* Stock */}
-          <div>
-            <label
-              className="block text-gray-700 font-bold mb-2"
-              htmlFor="stock"
-            >
-              Stock
-            </label>
-            <input
-              type="number"
-              name="stock"
-              value={stock}
-              min={0}
-              onChange={(e) => setStock(e.target.value)}
-              className="w-full px-3 py-2 border rounded"
-            />
-          </div>
+          <InputNumber
+            name="stock"
+            value={stock}
+            onChange={(e) => setStock(e.target.value)}
+            placeholder="Cantidad en stock"
+          />
 
           {/* Imagen - Ahora usando input type file */}
           <div>
@@ -127,23 +109,12 @@ const RegisterProduct = ({
           </div>
 
           {/* Descuento */}
-          <div>
-            <label
-              className="block text-gray-700 font-bold mb-2"
-              htmlFor="discount"
-            >
-              Descuento (%)
-            </label>
-            <input
-              type="number"
-              name="discount"
-              value={discount}
-              min={0}
-              max={100}
-              onChange={(e) => setDiscount(e.target.value)}
-              className="w-full px-3 py-2 border rounded"
-            />
-          </div>
+          <InputNumber
+            name="discount"
+            value={discount}
+            onChange={(e) => setDiscount(e.target.value)}
+            placeholder="Descuento (%)"
+          />
 
           {/* Categoría */}
           <div>
@@ -160,9 +131,9 @@ const RegisterProduct = ({
               className="w-full px-3 py-2 border rounded"
             >
               <option value="">Selecciona una categoría</option>
-              {categories.map((cat) => (
-                <option key={cat._id} value={cat._id}>
-                  {cat.name}
+              {categories.map((categorie) => (
+                <option key={categorie._id} value={categorie._id}>
+                  {categorie.name}
                 </option>
               ))}
             </select>
@@ -224,26 +195,18 @@ const RegisterProduct = ({
 
         {/* Botones */}
         <div className="mt-6 flex gap-4">
-          <button
-            type="submit"
-            onClick={editMode ? handleEdit : saveProduct}
-            disabled={loading}
-            className={`flex-1 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 ${
-              loading ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-          >
-            {loading ? "Procesando..." : editMode ? "Actualizar" : "Guardar"}
-          </button>
+          <Button
+            colorClass="primary"
+            label={editMode ? "Editar" : "Registrar"}
+            actionButton={editMode ? handleEdit : saveProduct}
+          />
 
           {editMode && (
-            <button
-              type="button"
-              onClick={cancelEdit}
-              disabled={loading}
-              className="flex-1 bg-gray-300 text-gray-800 py-2 px-4 rounded hover:bg-gray-400"
-            >
-              Cancelar
-            </button>
+            <Button
+              colorClass="warning"
+              label="Cancelar"
+              actionButton={cancelEdit}
+            />
           )}
         </div>
       </form>
