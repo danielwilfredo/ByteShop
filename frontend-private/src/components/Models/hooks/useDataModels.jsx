@@ -18,10 +18,17 @@ const useDataModels = () => {
   const fetchModels = async () => {
     const response = await fetch("http://localhost:4000/api/models", {
       method: "GET",
+<<<<<<< HEAD
       // credentials: "include",
       headers: {
         Authorization: `Bearer ${authCokie}`,
       },
+=======
+     credentials: "include",
+       /* headers: {
+      'Authorization': `Bearer ${authCokie}`
+    }*/
+>>>>>>> ccc61fd8304a50c1bac8d192dd8be8b41c20f0cd
     });
     if (!response.ok) {
       throw new Error("Hubo un error al obtener las marcas");
@@ -44,15 +51,22 @@ const useDataModels = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+<<<<<<< HEAD
 
         Authorization: `Bearer ${authCokie}`,
       },
       // credentials: "include",
+=======
+      
+      },
+      credentials: "include",
+>>>>>>> ccc61fd8304a50c1bac8d192dd8be8b41c20f0cd
       body: JSON.stringify(newModel),
     });
 
     if (!response.ok) {
-      throw new Error("Hubo un error al registrar el empleado");
+      console.log(response)
+      throw new Error("Hubo un error al registrar el modelo");
     }
 
     //const data = await response.json();
@@ -76,7 +90,7 @@ const useDataModels = () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${authCokie}`,
       },
-      //credentials: "include",
+      credentials: "include",
     });
 
     if (!response.ok) {

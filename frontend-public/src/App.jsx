@@ -1,7 +1,25 @@
+// App.js
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import Navegation from "./components/Navegation";
+import { Toaster } from "react-hot-toast";
+
 function App() {
   return (
     <>
-      <h1 class="text-3xl font-bold  bg-blue-200 p-20 text-center">ByteShop</h1>
+      <Router>
+        <Navegation />
+      </Router>
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          style: {
+            background: "#363636",
+            color: "#fff",
+          },
+        }}
+      />
     </>
   );
 }

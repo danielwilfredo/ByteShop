@@ -31,10 +31,13 @@ const app = express();
 // Settings
 // TODO: aqui van algunos ajustes
 
+
 // Middlewares
+const allowedOrigins = ["http://localhost:5174", "http://localhost:5173"];
+
 app.use(
   cors({
-    origin: "http://localhost:5173", // Dominio del cliente
+    origin: allowedOrigins, // Dominio del cliente
     credentials: true, // Permitir envío de cookies y credenciales
   })
 );

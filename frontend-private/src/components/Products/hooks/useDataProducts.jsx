@@ -32,19 +32,19 @@ const useDataProducts = () => {
   const [currentProductId, setCurrentProductId] = useState(null);
   const [refresh, setRefresh] = useState(false); // Para forzar actualizaciones
 
-  // Obtener el contexto de autenticación
-  const { API, authCokie } = useAuth();
-
-  // Base URL para las peticiones a la API
-  const API_URL = API || "http://localhost:4000/api";
-
-  // Función para crear los headers de autenticación (usando useCallback para evitar regeneraciones innecesarias)
-  const getAuthHeaders = useCallback(() => {
-    const headers = {
-      Authorization: authCokie ? `Bearer ${authCokie}` : "",
-    };
-    return headers;
-  }, [authCokie]);
+    // Obtener el contexto de autenticación
+    const { API, authCokie } = useAuth();
+    
+    // Base URL para las peticiones a la API
+    const API_URL = API || "http://localhost:4000/api";
+    
+    // Función para crear los headers de autenticación (usando useCallback para evitar regeneraciones innecesarias)
+    const getAuthHeaders = useCallback(() => {
+        const headers = {
+            'Authorization': authCokie ? `Bearer ${authCokie}` : ''
+        };
+        return headers;
+    }, [authCokie]);
 
   /**
    * Función para limpiar el formulario
@@ -64,62 +64,64 @@ const useDataProducts = () => {
     setCurrentProductId(null);
   };
 
-  /**
-   * Efecto para cargar la lista de productos al montar el componente
-   * o cuando se actualiza el estado de refresh
-   */
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`${API_URL}/products`, {
-          credentials: "include",
-          headers: getAuthHeaders(),
-        });
+    /**
+     * Efecto para cargar la lista de productos al montar el componente
+     * o cuando se actualiza el estado de refresh
+     */
 
-        if (!response.ok) {
-          throw new Error("Error al cargar productos");
-        }
+      const fetchProducts = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch(`${API_URL}/products`, {
+                    credentials: 'include',
+                    headers: getAuthHeaders()
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Error al cargar productos');
+                }
+                
+                const data = await response.json();
+                setProducts(data);
+                setError(null);
+            } catch (error) {
+                console.error('Error cargando productos:', error);
+                setError('No se pudieron cargar los productos. Intentalo más tarde.');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-        const data = await response.json();
-        setProducts(data);
-        setError(null);
-      } catch (error) {
-        console.error("Error cargando productos:", error);
-        setError("No se pudieron cargar los productos. Intentalo más tarde.");
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchProducts();
-  }, [API_URL, getAuthHeaders, refresh]);
+    useEffect(() => {
+  
+        fetchProducts();
+    }, [API_URL, getAuthHeaders, refresh]);
 
-  /**
-   * Efecto para cargar las categorías, marcas y modelos al montar el componente
-   */
-  useEffect(() => {
-    const fetchCategoriesAndBrands = async () => {
-      try {
-        // Cargar categorías
-        const categoryResponse = await fetch(`${API_URL}/categories`, {
-          credentials: "include",
-          headers: getAuthHeaders(),
-        });
-        if (categoryResponse.ok) {
-          const categoryData = await categoryResponse.json();
-          setCategories(categoryData);
-        }
+    /**
+     * Efecto para cargar las categorías, marcas y modelos al montar el componente
+     */
+        const fetchCategoriesAndBrands = async () => {
+            try {
+                // Cargar categorías
+                const categoryResponse = await fetch(`${API_URL}/categories`, {
+                    credentials: 'include',
+                    headers: getAuthHeaders()
+                });
+                if (categoryResponse.ok) {
+                    const categoryData = await categoryResponse.json();
+                    setCategories(categoryData);
+                }
 
-        // Cargar marcas
-        const brandResponse = await fetch(`${API_URL}/brands`, {
-          credentials: "include",
-          headers: getAuthHeaders(),
-        });
-        if (brandResponse.ok) {
-          const brandData = await brandResponse.json();
-          setBrands(brandData);
-        }
+                // Cargar marcas
+                const brandResponse = await fetch(`${API_URL}/brands`, {
+                    credentials: 'include',
+                    headers: getAuthHeaders()
+                });
+                if (brandResponse.ok) {
+                    const brandData = await brandResponse.json();
+                    setBrands(brandData);
+                }
 
         // Cargar modelos
         const modelResponse = await fetch(`${API_URL}/models`, {
@@ -134,6 +136,9 @@ const useDataProducts = () => {
         console.error("Error cargando datos relacionados:", error);
       }
     };
+
+
+    useEffect(() => {
 
     fetchCategoriesAndBrands();
   }, [API_URL, getAuthHeaders]);
@@ -191,38 +196,36 @@ const useDataProducts = () => {
         formData.append("image", imageFile);
       }
 
-      // Al enviar FormData con archivos, no podemos incluir el Content-Type en los headers
-      // ya que el navegador necesita establecerlo con el boundary correcto
-      const authHeader = authCokie
-        ? { Authorization: `Bearer ${authCokie}` }
-        : {};
-
-      const response = await fetch(`${API_URL}/products`, {
-        method: "POST",
-        credentials: "include",
-        headers: authHeader,
-        body: formData,
-      });
+            // Al enviar FormData con archivos, no podemos incluir el Content-Type en los headers
+            // ya que el navegador necesita establecerlo con el boundary correcto
+            const authHeader = authCokie ? { 'Authorization': `Bearer ${authCokie}` } : {};
+            
+            const response = await fetch(`${API_URL}/products`, {
+                method: 'POST',
+                credentials: 'include',
+               // headers: authHeader,
+                body: formData
+            });
 
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Error al crear el producto");
       }
 
-      // Limpiar el formulario y actualizar la lista
-      clearForm();
-      setRefresh((prev) => !prev); // Forzar recarga de productos
-      setError(null);
-
-      // Notificar éxito (podría implementarse un sistema de notificaciones)
-      toast.success("Producto creado exitosamente");
-    } catch (error) {
-      console.error("Error creando producto:", error);
-      setError(error.message || "Ocurrió un error al crear el producto");
-    } finally {
-      setLoading(false);
-    }
-  };
+            // Limpiar el formulario y actualizar la lista
+            clearForm();
+            setRefresh(prev => !prev); // Forzar recarga de productos
+            setError(null);
+            
+            // Notificar éxito (podría implementarse un sistema de notificaciones)
+            alert('Producto creado exitosamente');
+        } catch (error) {
+            console.error('Error creando producto:', error);
+            setError(error.message || 'Ocurrió un error al crear el producto');
+        } finally {
+            setLoading(false);
+        }
+    };
 
   /**
    * Función para eliminar un producto
