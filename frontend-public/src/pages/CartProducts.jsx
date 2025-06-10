@@ -56,22 +56,23 @@ const CartProducts = () => {
   const sendOrder = async () => {
     setLoading(true);
     setMessage(null);
-
+    const userId = localStorage.getItem("userId") || "default-user-id"; // Simulación de ID de usuario
     const order = {
-      idClient: "id-del-cliente", // Aquí deberías poner el id real (auth)
+      idClient: userId, // Aquí deberías poner el id real (auth)
       products: cart,
       total,
       status: "Pending",
     };
 
     console.log("Enviando pedido:", order);
-    /*
+
     try {
       const response = await fetch("http://localhost:4000/api/orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        //credentials: "include", // Para enviar cookies si es necesario
         body: JSON.stringify(order),
       });
 
@@ -88,7 +89,7 @@ const CartProducts = () => {
       setMessage(`Error: ${error.message}`);
     } finally {
       setLoading(false);
-    }*/
+    }
   };
 
   if (cart.length === 0) {

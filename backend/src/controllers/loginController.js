@@ -77,7 +77,7 @@ loginController.login = async (req, res) => {
           sameSite: 'lax', // Protección contra CSRF
           secure: process.env.NODE_ENV === 'production' // Solo HTTPS en producción
         });
-        res.status(200).json({ message: `${userType} login successful`, token });
+        res.status(200).json({ message: `${userType} login successful`, token, userId: userFound._id });
       }
     );
   } catch (error) {

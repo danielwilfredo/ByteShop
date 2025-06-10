@@ -15,6 +15,7 @@ import Home from "../pages/Home";
 import AboutUs from "../pages/AboutUs";
 import Products from "../pages/Products";
 import CartProducts from "../pages/CartProducts";
+import LoginRegister from "../pages/Login";
 
 function Navegation() {
   //en el frontned manejo la autenticacion con cookie osea obtengo lo que
@@ -36,7 +37,9 @@ function Navegation() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/product/:id?" element={<Products />} />
-        <Route path="/cart?" element={<CartProducts />} />
+        <Route path="/cart" element={<CartProducts />} />
+        <Route path="/login" element={<LoginRegister />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
 
         {/*<Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
