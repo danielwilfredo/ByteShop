@@ -67,7 +67,7 @@ const LoginRegister = () => {
         lastName,
         email,
         password,
-        telephone,
+        telephone: Number(telephone),
         dui,
       });
 
