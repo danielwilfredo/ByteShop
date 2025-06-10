@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 
 const useDataBrands = () => {
-
   const [activeTab, setActiveTab] = useState("list");
   const API = "http://localhost:4000/api/brands";
   const [id, setId] = useState("");
@@ -17,7 +17,6 @@ const useDataBrands = () => {
     const data = await response.json();
     setBrands(data);
     setLoading(false);
-  
   };
 
   useEffect(() => {
@@ -34,7 +33,7 @@ const useDataBrands = () => {
     const response = await fetch(API, {
       method: "POST",
       headers: {
-      "Content-Type": "application/json",
+        "Content-Type": "application/json",
       },
       credentials: "include",
       body: JSON.stringify(newBrand),
@@ -45,7 +44,7 @@ const useDataBrands = () => {
     }
 
     const data = await response.json();
-    toast.success('Nueva marca registrada exitosamente');
+    toast.success("Nueva marca registrada exitosamente");
     setBrands(data);
     fetchBrands();
     setNameBrand("");
@@ -63,7 +62,7 @@ const useDataBrands = () => {
       throw new Error("Hubo un error al eliminar la marca");
     }
 
-    toast.success('Marca eliminada exitosamente');
+    toast.success("Marca eliminada exitosamente");
     fetchBrands();
   };
 
@@ -93,7 +92,7 @@ const useDataBrands = () => {
       }
 
       const data = await response.json();
-      toast.success('Marca Actualizada');
+      toast.success("Marca Actualizada");
       setBrands(data);
       setId(""); // Limpiar el ID
       //setActiveTab("list");
@@ -104,23 +103,23 @@ const useDataBrands = () => {
     }
   };
 
-return {
-        activeTab, 
-        setActiveTab,
-        id,
-        setId,
-        nameBrand,
-        setNameBrand,
-        brands,
-        setBrands,
-        loading,
-        setLoading,
-        fetchBrands,
-        saveBrand,
-        deleteBrand,
-        updateBrands,
-        handleEdit,
-    }
-}
+  return {
+    activeTab,
+    setActiveTab,
+    id,
+    setId,
+    nameBrand,
+    setNameBrand,
+    brands,
+    setBrands,
+    loading,
+    setLoading,
+    fetchBrands,
+    saveBrand,
+    deleteBrand,
+    updateBrands,
+    handleEdit,
+  };
+};
 
 export default useDataBrands;

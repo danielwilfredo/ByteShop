@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import InputText from "../InputText";
 
 /**
  * Componente para el registro y edición de productos
@@ -6,89 +7,106 @@ import React from 'react';
  */
 const RegisterProduct = ({
   // Estados del formulario
-  name, setName,
-  description, setDescription,
-  price, setPrice,
-  idCategory, setIdCategory,
+  name,
+  setName,
+  description,
+  setDescription,
+  price,
+  setPrice,
+  idCategory,
+  setIdCategory,
   categories = [],
-  stock, setStock,
+  stock,
+  setStock,
   // Los props imageFile y setImageFile no se usan directamente pero
   // son necesarios para el prop handleImageChange
   imagePreview,
-  idBrand, setIdBrand,
+  idBrand,
+  setIdBrand,
   brands = [],
-  idModel, setIdModel,
+  idModel,
+  setIdModel,
   models = [],
-  discount, setDiscount,
-  
+  discount,
+  setDiscount,
+
   // Funciones
   saveProduct,
   handleEdit,
   cancelEdit,
   handleImageChange,
-  
+
   // Estados de control
   editMode,
   loading,
-  error
+  error,
 }) => {
   return (
     <div className="max-w-4xl mx-auto mt-10">
       <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Nombre */}
-          <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="name">Nombre</label>
-            <input
-              type="text"
-              name="name"
-              value={name}
-              onChange={e => setName(e.target.value)}
-              className="w-full px-3 py-2 border rounded"
-            />
-          </div>
+
+          <InputText
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Nombre del producto"
+            className="w-full px-3 py-2 border rounded"
+          />
 
           {/* Descripción */}
-          <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="description">Descripción</label>
-            <input
-              type="text"
-              name="description"
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-              className="w-full px-3 py-2 border rounded"
-            />
-          </div>
+
+          <InputText
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Descripción del producto"
+            className="w-full px-3 py-2 border rounded"
+          />
 
           {/* Precio */}
           <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="price">Precio</label>
+            <label
+              className="block text-gray-700 font-bold mb-2"
+              htmlFor="price"
+            >
+              Precio
+            </label>
             <input
               type="number"
               name="price"
               value={price}
               min={0}
-              onChange={e => setPrice(e.target.value)}
+              onChange={(e) => setPrice(e.target.value)}
               className="w-full px-3 py-2 border rounded"
             />
           </div>
 
           {/* Stock */}
           <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="stock">Stock</label>
+            <label
+              className="block text-gray-700 font-bold mb-2"
+              htmlFor="stock"
+            >
+              Stock
+            </label>
             <input
               type="number"
               name="stock"
               value={stock}
               min={0}
-              onChange={e => setStock(e.target.value)}
+              onChange={(e) => setStock(e.target.value)}
               className="w-full px-3 py-2 border rounded"
             />
           </div>
 
           {/* Imagen - Ahora usando input type file */}
           <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="image">Imagen</label>
+            <label
+              className="block text-gray-700 font-bold mb-2"
+              htmlFor="image"
+            >
+              Imagen
+            </label>
             <input
               type="file"
               name="image"
@@ -99,10 +117,10 @@ const RegisterProduct = ({
             {/* Mostrar vista previa de la imagen si existe */}
             {imagePreview && (
               <div className="mt-2">
-                <img 
-                  src={imagePreview} 
-                  alt="Vista previa" 
-                  className="w-full max-h-40 object-contain rounded" 
+                <img
+                  src={imagePreview}
+                  alt="Vista previa"
+                  className="w-full max-h-40 object-contain rounded"
                 />
               </div>
             )}
@@ -110,62 +128,88 @@ const RegisterProduct = ({
 
           {/* Descuento */}
           <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="discount">Descuento (%)</label>
+            <label
+              className="block text-gray-700 font-bold mb-2"
+              htmlFor="discount"
+            >
+              Descuento (%)
+            </label>
             <input
               type="number"
               name="discount"
               value={discount}
               min={0}
               max={100}
-              onChange={e => setDiscount(e.target.value)}
+              onChange={(e) => setDiscount(e.target.value)}
               className="w-full px-3 py-2 border rounded"
             />
           </div>
 
           {/* Categoría */}
           <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="idCategory">Categoría</label>
+            <label
+              className="block text-gray-700 font-bold mb-2"
+              htmlFor="idCategory"
+            >
+              Categoría
+            </label>
             <select
               name="idCategory"
               value={idCategory}
-              onChange={e => setIdCategory(e.target.value)}
+              onChange={(e) => setIdCategory(e.target.value)}
               className="w-full px-3 py-2 border rounded"
             >
               <option value="">Selecciona una categoría</option>
-              {categories.map(cat => (
-                <option key={cat._id} value={cat._id}>{cat.name}</option>
+              {categories.map((cat) => (
+                <option key={cat._id} value={cat._id}>
+                  {cat.name}
+                </option>
               ))}
             </select>
           </div>
 
           {/* Marca */}
           <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="idBrand">Marca</label>
+            <label
+              className="block text-gray-700 font-bold mb-2"
+              htmlFor="idBrand"
+            >
+              Marca
+            </label>
             <select
               name="idBrand"
               value={idBrand}
-              onChange={e => setIdBrand(e.target.value)}
+              onChange={(e) => setIdBrand(e.target.value)}
               className="w-full px-3 py-2 border rounded"
             >
               <option value="">Selecciona una marca</option>
-              {brands.map(brand => (
-                <option key={brand._id} value={brand._id}>{brand.name}</option>
+              {brands.map((brand) => (
+                <option key={brand._id} value={brand._id}>
+                  {brand.name}
+                </option>
               ))}
             </select>
           </div>
 
           {/* Modelo */}
           <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="idModel">Modelo</label>
+            <label
+              className="block text-gray-700 font-bold mb-2"
+              htmlFor="idModel"
+            >
+              Modelo
+            </label>
             <select
               name="idModel"
               value={idModel}
-              onChange={e => setIdModel(e.target.value)}
+              onChange={(e) => setIdModel(e.target.value)}
               className="w-full px-3 py-2 border rounded"
             >
               <option value="">Selecciona un modelo</option>
-              {models.map(model => (
-                <option key={model._id} value={model._id}>{model.name}</option>
+              {models.map((model) => (
+                <option key={model._id} value={model._id}>
+                  {model.name}
+                </option>
               ))}
             </select>
           </div>
@@ -177,18 +221,20 @@ const RegisterProduct = ({
             {error}
           </div>
         )}
-        
+
         {/* Botones */}
         <div className="mt-6 flex gap-4">
           <button
             type="submit"
             onClick={editMode ? handleEdit : saveProduct}
             disabled={loading}
-            className={`flex-1 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`flex-1 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
-            {loading ? 'Procesando...' : (editMode ? "Actualizar" : "Guardar")}
+            {loading ? "Procesando..." : editMode ? "Actualizar" : "Guardar"}
           </button>
-          
+
           {editMode && (
             <button
               type="button"

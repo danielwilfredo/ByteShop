@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from "react";
+import React from "react";
 import ListBrands from "../components/Brands/ListBrands";
 import RegisterBrand from "../components/Brands/RegisterBrand";
 import useDataBrands from "../components/Brands/hooks/useDataBrands";
@@ -14,8 +14,9 @@ const Brands = () => {
     saveBrand,
     deleteBrand,
     updateBrands,
+    handleEdit,
   } = useDataBrands();
-  
+
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
@@ -62,7 +63,6 @@ const Brands = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };

@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { useAuth } from '../../../hooks/useAuth';
+import { useEffect, useState } from "react";
+import { useAuth } from "../../../hooks/useAuth";
 import { toast } from "react-hot-toast";
-const useDataModels = () => {   
- //codigo de las funciones
+const useDataModels = () => {
+  //codigo de las funciones
   const { authCokie } = useAuth();
   //estado para manejar el tab activo
   const [activeTab, setActiveTab] = useState("list");
@@ -18,10 +18,10 @@ const useDataModels = () => {
   const fetchModels = async () => {
     const response = await fetch("http://localhost:4000/api/models", {
       method: "GET",
-     // credentials: "include",
-        headers: {
-      'Authorization': `Bearer ${authCokie}`
-    }
+      // credentials: "include",
+      headers: {
+        Authorization: `Bearer ${authCokie}`,
+      },
     });
     if (!response.ok) {
       throw new Error("Hubo un error al obtener las marcas");
@@ -38,17 +38,16 @@ const useDataModels = () => {
 
     const newModel = {
       name: modelName,
-      
     };
 
     const response = await fetch("http://localhost:4000/api/models", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-           
-      'Authorization': `Bearer ${authCokie}`
-          },
-     // credentials: "include",
+
+        Authorization: `Bearer ${authCokie}`,
+      },
+      // credentials: "include",
       body: JSON.stringify(newModel),
     });
 
@@ -72,9 +71,10 @@ const useDataModels = () => {
   const deleteModel = async (id) => {
     const response = await fetch(`http://localhost:4000/api/models/${id}`, {
       method: "DELETE",
-      
+
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${authCokie}`,
       },
       //credentials: "include",
     });
@@ -106,7 +106,6 @@ const useDataModels = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-      
       },
       credentials: "include",
       body: JSON.stringify(updatedModel),
@@ -134,11 +133,8 @@ const useDataModels = () => {
     saveModels,
     deleteModel,
     updateModels,
-    handleEdit
+    handleEdit,
   };
-}
+};
 
 export default useDataModels;
-
-
-

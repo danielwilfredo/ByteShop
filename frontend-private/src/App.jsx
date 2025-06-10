@@ -17,11 +17,6 @@ function App() {
             duration: 1000,
           }}
         />
-        <Toaster
-          toastOptions={{
-            duration: 1000,
-          }}
-        />
       </AuthProvider>
     </Router>
   );

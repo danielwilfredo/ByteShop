@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ListProducts from "../components/Products/ListProducts";
 import RegisterProduct from "../components/Products/RegisterProduct";
 import useDataProducts from "../components/Products/hooks/useDataProducts";
-import toast, {Toaster} from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
 /**
  * Página principal para la gestión de productos
@@ -11,80 +11,87 @@ import toast, {Toaster} from 'react-hot-toast';
 const Products = () => {
   // Estado para el manejo de las pestañas
   const [activeTab, setActiveTab] = useState("list");
-  
+
   // Usamos nuestro hook personalizado que maneja toda la lógica de productos
   const {
     // Estados del formulario
-    name, setName,
-    description, setDescription,
-    price, setPrice,
-    idCategory, setIdCategory,
-    stock, setStock,
-    imageFile, setImageFile,
-    imagePreview, setImagePreview,
-    idBrand, setIdBrand,
-    idModel, setIdModel,
-    discount, setDiscount,
-    
+    name,
+    setName,
+    description,
+    setDescription,
+    price,
+    setPrice,
+    idCategory,
+    setIdCategory,
+    stock,
+    setStock,
+    imageFile,
+    setImageFile,
+    imagePreview,
+    setImagePreview,
+    idBrand,
+    setIdBrand,
+    idModel,
+    setIdModel,
+    discount,
+    setDiscount,
+
     // Estados de listas
     products,
     categories,
     brands,
     models,
-    
+
     // Estados de control
     loading,
     error,
     editMode,
-    
+
     // Funciones
     saveProduct,
     deleteProduct,
     prepareProductForEdit,
     handleEdit,
     cancelEdit,
-    handleImageChange
+    handleImageChange,
     // clearForm - No lo necesitamos directamente en esta página
   } = useDataProducts();
-  
+
   // Función para editar un producto
   const startEditProduct = (product) => {
     prepareProductForEdit(product);
     setActiveTab("form");
   };
-  
+
   // Función para manejar la eliminación con confirmación de toast
   const handleDeleteProduct = async (id) => {
     try {
       await deleteProduct(id);
-      toast.success('Producto eliminado correctamente');
     } catch (err) {
-      toast.error('Error al eliminar el producto: ' + err.message);
+      toast.error("Error al eliminar el producto: " + err.message);
     }
   };
-  
+
   // Función para manejar el guardado con notificaciones
   const handleSaveProduct = async (e) => {
     try {
       await saveProduct(e);
-      toast.success('Producto guardado correctamente');
       setActiveTab("list"); // Cambiar a la pestaña de lista después de guardar
     } catch (err) {
-      toast.error('Error al guardar el producto: ' + err.message);
+      toast.error("Error al guardar el producto: " + err.message);
     }
   };
-  
+
   // Función para manejar la edición con notificaciones
   const handleEditProduct = async (e) => {
     try {
       await handleEdit(e);
-      toast.success('Producto actualizado correctamente');
       setActiveTab("list"); // Cambiar a la pestaña de lista después de editar
     } catch (err) {
-      toast.error('Error al actualizar el producto: ' + err.message);
+      toast.error("Error al actualizar el producto: " + err.message);
     }
   };
-  
+
   // Función para cancelar la edición
   const handleCancelEdit = () => {
     cancelEdit();
@@ -94,28 +101,31 @@ const Products = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      {/* Componente para mostrar notificaciones toast */}
-      <Toaster position="top-right" />
-      
       <div className="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Gestión de Productos</h1>
-        
+        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+          Gestión de Productos
+        </h1>
+
         {/* Pestañas de navegación */}
         <div className="mb-8">
           <div className="flex border-b border-gray-200 mb-4">
             <button
-              className={`px-6 py-3 text-lg ${activeTab === "list" 
-                ? "text-blue-600 border-b-2 border-blue-500 font-medium" 
-                : "text-gray-600 hover:text-gray-800"} 
+              className={`px-6 py-3 text-lg ${
+                activeTab === "list"
+                  ? "text-blue-600 border-b-2 border-blue-500 font-medium"
+                  : "text-gray-600 hover:text-gray-800"
+              } 
                 focus:outline-none transition-colors duration-200`}
               onClick={() => setActiveTab("list")}
             >
               Lista de Productos
             </button>
             <button
-              className={`px-6 py-3 text-lg ${activeTab === "form" 
-                ? "text-blue-600 border-b-2 border-blue-500 font-medium" 
-                : "text-gray-600 hover:text-gray-800"} 
+              className={`px-6 py-3 text-lg ${
+                activeTab === "form"
+                  ? "text-blue-600 border-b-2 border-blue-500 font-medium"
+                  : "text-gray-600 hover:text-gray-800"
+              } 
                 focus:outline-none transition-colors duration-200`}
               onClick={() => {
                 setActiveTab("form");
@@ -129,7 +139,7 @@ const Products = () => {
               {editMode ? "Editar Producto" : "Nuevo Producto"}
             </button>
           </div>
-          
+
           {/* Contenido según la pestaña activa */}
           <div>
             {activeTab === "list" && (
@@ -147,7 +157,7 @@ const Products = () => {
                 )}
               </div>
             )}
-            
+
             {activeTab === "form" && (
               <div>
                 <RegisterProduct
@@ -175,13 +185,11 @@ const Products = () => {
                   models={models}
                   discount={discount}
                   setDiscount={setDiscount}
-                  
                   // Funciones para manejar acciones
                   saveProduct={handleSaveProduct}
                   handleEdit={handleEditProduct}
                   cancelEdit={handleCancelEdit}
                   handleImageChange={handleImageChange}
-                  
                   // Estados de control
                   editMode={editMode}
                   loading={loading}
