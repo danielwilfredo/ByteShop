@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const LoginRegister = () => {
+  const { login, register } = useContext(AuthContext);
+
   const [isLogin, setIsLogin] = useState(true);
   const [form, setForm] = useState({
     name: "",
@@ -20,34 +24,6 @@ const LoginRegister = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const login = async (email, password) => {
-    try {
-      const res = await fetch("http://localhost:4000/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      return await res.json();
-    } catch (error) {
-      console.error("Error al iniciar sesión:", error);
-      return false;
-    }
-  };
-
-  const register = async (userData) => {
-    try {
-      const res = await fetch("http://localhost:4000/api/registerClients", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData),
-      });
-      return res.ok;
-    } catch (error) {
-      console.error("Error al registrar:", error);
-      return false;
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -57,15 +33,9 @@ const LoginRegister = () => {
       }
       const success = await login(form.email, form.password);
       if (success) {
-        console.log("Inicio de sesión exitoso", success);
-        localStorage.setItem("userId", success.userId); // Simulación de token
-        toast.success("Sesión iniciada.");
-        navigate("/");
-      } else {
-        toast.error("Credenciales incorrectas.");
+        navigate("/dashboard");
       }
     } else {
-      // Validaciones para registro
       const {
         name,
         lastName,
@@ -102,7 +72,6 @@ const LoginRegister = () => {
       });
 
       if (success) {
-        toast.success("Cuenta registrada correctamente.");
         setIsLogin(true);
         setForm({
           name: "",
@@ -113,10 +82,6 @@ const LoginRegister = () => {
           telephone: "",
           dui: "",
         });
-      } else {
-        toast.error(
-          "No se pudo registrar. Intente con otro correo o revise los datos."
-        );
       }
     }
   };

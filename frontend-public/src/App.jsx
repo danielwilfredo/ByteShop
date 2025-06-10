@@ -3,24 +3,26 @@ import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import Navegation from "./components/Navegation";
 import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
-    <>
-      <Router>
+    <Router>
+      <AuthProvider>
         <Navegation />
-      </Router>
-      <Toaster
-        position="top-right"
-        reverseOrder={false}
-        toastOptions={{
-          style: {
-            background: "#363636",
-            color: "#fff",
-          },
-        }}
-      />
-    </>
+
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{
+            style: {
+              background: "#363636",
+              color: "#fff",
+            },
+          }}
+        />
+      </AuthProvider>
+    </Router>
   );
 }
 

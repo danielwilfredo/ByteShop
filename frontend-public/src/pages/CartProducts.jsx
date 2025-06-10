@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useFetchProducts from "../hooks/useFetchProducts";
+import { AuthContext } from "../context/AuthContext";
 
 const CartProducts = () => {
   const { products } = useFetchProducts();
   const [cart, setCart] = useState([]);
+  const { user } = useContext(AuthContext); // Obtener el usuario autenticado
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
 
@@ -56,9 +58,9 @@ const CartProducts = () => {
   const sendOrder = async () => {
     setLoading(true);
     setMessage(null);
-    const userId = localStorage.getItem("userId") || "default-user-id"; // Simulación de ID de usuario
+    //const userId = localStorage.getItem("userId") || "default-user-id"; // Simulación de ID de usuario
     const order = {
-      idClient: userId, // Aquí deberías poner el id real (auth)
+      idClient: user, // Aquí deberías poner el id real (auth)
       products: cart,
       total,
       status: "Pending",
