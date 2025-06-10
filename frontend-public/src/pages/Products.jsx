@@ -34,7 +34,7 @@ const Products = () => {
       : products?.filter((item) => item.idCategory?._id === selectedCategory);
 
   // Función para agregar producto al carrito
-  const addToCart = (product, quantity = 1) => {
+  const addToCart = (product, quantity) => {
     setProductsCart((prevCart) => {
       // Buscar si producto ya está en carrito
       const existingProductIndex = prevCart.findIndex(
@@ -61,39 +61,6 @@ const Products = () => {
       }
     });
     console.log("Carrito actualizado:", productsCart);
-  };
-
-  const realAddToCart = async () => {
-    const order = {
-      idClient: "id-del-cliente", // obtener de auth o input
-      products: productsCart,
-      total: productsCart.reduce((acc, item) => acc + item.subtotal, 0),
-      status: "Pending",
-    };
-
-    try {
-      const response = await fetch("http://localhost:4000/api/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(order),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Error al crear pedido");
-      }
-
-      console.log("Pedido creado:", data);
-
-      // Limpiar carrito
-      setProductsCart([]);
-      localStorage.removeItem("cart");
-    } catch (error) {
-      console.error("Error al crear pedido:", error);
-    }
   };
 
   return (
@@ -138,7 +105,7 @@ const Products = () => {
               <CardProduct
                 product={item}
                 key={item._id}
-                addToCart={() => addToCart(item, 1)} // puedes ajustar cantidad
+                addToCart={addToCart} // puedes ajustar cantidad
               />
             ))
           )}

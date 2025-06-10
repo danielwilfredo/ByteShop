@@ -10,7 +10,7 @@ const CardProduct = ({ product, addToCart }) => {
   const handleAddToCart = () => {
     const subTotal = product.price * quantity;
 
-    addToCart(product._id, quantity, subTotal);
+    addToCart(product, quantity);
     toast.success(
       `Producto ${product.name} agregado al carrito con éxito. Cantidad: ${quantity}`
     );

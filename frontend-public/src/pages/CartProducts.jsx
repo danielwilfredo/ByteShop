@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import useFetchProducts from "../hooks/useFetchProducts";
 import { AuthContext } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 const CartProducts = () => {
   const { products } = useFetchProducts();
@@ -85,6 +86,7 @@ const CartProducts = () => {
       }
 
       setMessage("Pedido creado con éxito 🎉");
+      toast.success("Pedido creado con éxito");
       setCart([]);
       localStorage.removeItem("cart");
     } catch (error) {
